@@ -1055,6 +1055,23 @@
         document.getElementById('reg-p-edad').value = textEdad;
     }
 
+    // Calcula la edad en tiempo real a partir de una fecha de nacimiento.
+    // Usada al renderizar el perfil público y la vista del dueño,
+    // para que la edad siempre sea correcta sin importar cuándo se escanea.
+    // Retorna null si no hay fecha válida (el caller usará el texto guardado como fallback).
+    function calcEdadDinamica(fechaNac) {
+        if (!fechaNac) return null;
+        const nac = new Date(fechaNac);
+        if (isNaN(nac.getTime())) return null;
+        const hoy = new Date();
+        let anios = hoy.getFullYear() - nac.getFullYear();
+        const m = hoy.getMonth() - nac.getMonth();
+        if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) anios--;
+        if (anios > 0) return anios + (anios === 1 ? ' año' : ' años');
+        let meses = m < 0 ? m + 12 : m;
+        return meses + (meses === 1 ? ' mes' : ' meses');
+    }
+
     // Modal Logic
     function openModal(id) {
         document.getElementById(id).style.display = 'flex';
@@ -1105,7 +1122,7 @@
         document.getElementById('pub-temp').innerText = pet.temperamento || '---';
         document.getElementById('pub-med').innerText = pet.condiciones_medicas || '---';
         document.getElementById('pub-vacunacion').innerText = pet.estado_vacunacion || '---';
-        document.getElementById('pub-edad').innerText = pet.edad || '---';
+        document.getElementById('pub-edad').innerText = calcEdadDinamica(pet.fecha_nacimiento) || pet.edad || '---';
         
         const waLink = `https://wa.me/${pet.dueno_tel}?text=Hola,%20encontré%20a%20tu%20mascota%20${pet.nombre}%20mediante%20su%20PeTApp`;
 
@@ -1587,7 +1604,7 @@
 
                         <div class="info-panel" style="border-left-color: var(--warning);">
                             <div class="info-label">🎂 Edad</div>
-                            <div class="info-text">${pet.edad || '---'}</div>
+                            <div class="info-text">${calcEdadDinamica(pet.fecha_nacimiento) || pet.edad || '---'}</div>
                         </div>
 
                         <div class="info-panel" style="border-left-color: var(--danger);">
