@@ -329,7 +329,7 @@
                 <div class="vet-footer">
                     <div class="info-label">Registrado en:</div>
                     <h4 id="pub-vet-name">Veterinaria...</h4>
-                    <div id="pub-vet-tel" style="font-weight: 600;">Tel: ---</div>
+                    <a id="pub-vet-tel" href="#" style="display: inline-block; margin-top: 6px; padding: 8px 18px; background: var(--primary); color: #0f172a; font-weight: 700; font-size: 0.9rem; border-radius: 12px; text-decoration: none; letter-spacing: 0.5px;">📞 Llamar a la Veterinaria</a>
                     <div id="pub-vet-dir" style="font-size: 0.85rem; color: var(--text-muted);">Dirección...</div>
                 </div>
             </div>
@@ -1168,7 +1168,17 @@
             document.getElementById('pub-carousel-view').style.display = 'none';
             
             document.getElementById('pub-vet-name').innerText = pet.vet_nombre || 'Desconocido';
-            document.getElementById('pub-vet-tel').innerText = 'Tel: ' + (pet.vet_tel || '---');
+            const vetTelEl = document.getElementById('pub-vet-tel');
+            if (pet.vet_tel) {
+                vetTelEl.href = `tel:${pet.vet_tel}`;
+                vetTelEl.style.display = 'inline-block';
+                vetTelEl.style.pointerEvents = 'auto';
+                vetTelEl.style.opacity = '1';
+            } else {
+                vetTelEl.href = '#';
+                vetTelEl.style.pointerEvents = 'none';
+                vetTelEl.style.opacity = '0.4';
+            }
             document.getElementById('pub-vet-dir').innerText = pet.vet_direccion || 'Consulta con la veterinaria.';
             document.getElementById('btn-whatsapp').onclick = () => window.open(waLink, '_blank');
             document.getElementById('btn-call').onclick = () => window.location.href = `tel:${pet.dueno_tel}`;
@@ -1623,7 +1633,7 @@
                         <div class="vet-footer">
                             <div class="info-label">Registrado en:</div>
                             <h4>${pet.vet_nombre || 'Desconocido'}</h4>
-                            <div style="font-weight: 600;">Tel: ${pet.vet_tel || '---'}</div>
+                            ${pet.vet_tel ? `<a href="tel:${pet.vet_tel}" style="display: inline-block; margin-top: 6px; padding: 8px 18px; background: var(--primary); color: #0f172a; font-weight: 700; font-size: 0.9rem; border-radius: 12px; text-decoration: none;">📞 Llamar a la Veterinaria</a>` : '<div style="font-weight:600; color: var(--text-muted);">Tel: ---</div>'}
                         </div>
                     </div>
                 </div>
