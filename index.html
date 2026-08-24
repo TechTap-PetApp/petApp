@@ -253,7 +253,6 @@
 <div class="app-container">
     <div class="branding">
         <button id="btn-logout" class="logout-btn" onclick="logoutPetApp()">Cerrar Sesión</button>
-        <img src="PeTApp_Logo.jpeg" alt="PeTApp Logo" style="max-height: 140px; max-width: 90%; margin-top: 5px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));">
     </div>
 
     <!-- VIEW: SCAN / HOME -->
@@ -667,6 +666,8 @@
 
 <!-- Developer Footer -->
 <div style="text-align: center; margin-top: 30px; margin-bottom: 20px;">
+    <img src="PeTApp_Logo.jpeg" alt="PeTApp Logo" style="max-height: 140px; max-width: 95%; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); margin-bottom: 10px;">
+    <br>
     <span style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Powered by</span><br>
     <img src="Logo_TechTap.jpeg" alt="TechTap Logo" style="max-height: 140px; max-width: 95%; object-fit: contain; border-radius: 12px; margin-top: 15px; opacity: 1; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));">
 </div>
@@ -1332,10 +1333,7 @@
             document.getElementById('reg-p-nombre').classList.add('input-error');
             errores.push('nombre de la mascota');
         }
-        if (!fotoBase64) {
-            if (fotoArea) fotoArea.classList.add('input-error');
-            errores.push('fotografía de la mascota');
-        }
+        // Foto es opcional — no se valida como campo obligatorio
         if (errores.length > 0) {
             const ultimo = errores.pop();
             const lista = errores.length > 0 ? errores.join(', ') + ' y ' + ultimo : ultimo;
